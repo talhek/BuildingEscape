@@ -1,0 +1,7 @@
+*.db
+*.VC.db
+*/Binaries
+*/Content
+*/Intermediate
+*/Saved
+BuildingEscape/.vs/BuildingEscape/v15/ipch/AutoPCH/30cbaaa30ece1307/BUILDINGESCAPE.ipch
