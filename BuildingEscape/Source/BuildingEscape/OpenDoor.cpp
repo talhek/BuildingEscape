@@ -1,7 +1,7 @@
 // Copyright Tal Hekman 17
 
 #include "OpenDoor.h"
-
+#include "GameFramework/Actor.h"
 
 // Sets default values for this component's properties
 UOpenDoor::UOpenDoor()
@@ -18,8 +18,12 @@ UOpenDoor::UOpenDoor()
 void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
+	AActor* Owner = GetOwner();
+	UE_LOG(LogTemp, Warning, TEXT("Door rotation set to %s"), *Owner->GetActorRotation().ToString());
 
-	// ...
+	FRotator NewRotation = FRotator(0.0f, 60.0f, 0.0f);
+	Owner->SetActorRotation(NewRotation);
+	UE_LOG(LogTemp, Warning, TEXT("Door rotation set to %s"), *Owner->GetActorRotation().ToString());
 	
 }
 
@@ -28,7 +32,6 @@ void UOpenDoor::BeginPlay()
 void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
 	// ...
 }
 
