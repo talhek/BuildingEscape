@@ -73,3 +73,5 @@ Build/*/**
 
 # Cache files for the editor to use
 /*DerivedDataCache
+BuildingEscape/Binaries/
+BuildingEscape/Content/
