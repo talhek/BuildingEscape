@@ -29,4 +29,12 @@ private:
 	FRotator PlayerViewPointRotator;
 	float Reach = 100.f;
 	FString ObjectHit;
+
+	//**TESTING****//
+	//**TESTING****//
+	//**TESTING****//
+	//**TESTING****//
+
+	//**TESTING****//
+
 };
