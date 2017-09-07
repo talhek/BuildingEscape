@@ -30,11 +30,5 @@ private:
 	float Reach = 100.f;
 	FString ObjectHit;
 
-	//**TESTING****//
-	//**TESTING****//
-	//**TESTING****//
-	//**TESTING****//
-
-	//**TESTING****//
-
+	UPhysicsHandleComponent* PhysicsHandler = nullptr;
 };

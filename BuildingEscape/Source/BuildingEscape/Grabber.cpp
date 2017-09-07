@@ -17,7 +17,14 @@ void UGrabber::BeginPlay()
 {
 
 	Super::BeginPlay();
-
+	///Look for physics handler
+	PhysicsHandler = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+	if (!PhysicsHandler) {
+		UE_LOG(LogTemp, Error, TEXT("%s missing physics component"), *GetOwner()->GetName());
+	}
+	else {
+		//PhysicsHandler is found
+	}
 }
 
 
@@ -58,7 +65,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	//see what we hit
 		if(Hit.GetActor())
 			ObjectHit = Hit.GetActor()->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("Collision occured with object: %s "), *ObjectHit);
+		//UE_LOG(LogTemp, Warning, TEXT("Collision occured with object: %s "), *ObjectHit);
 
 }
 
