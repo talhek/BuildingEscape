@@ -30,7 +30,8 @@ public:
 
 
 private:
-
+	FHitResult Hit;
+	FVector LineTraceEnd;
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotator;
 	float Reach = 100.f;
@@ -41,5 +42,7 @@ private:
 	void GrabObject();
 	void ReleaseObject();
 	const FHitResult GetFirstPhysicsBodyInReach();
+
+	void LocationUpdate();
 
 };
