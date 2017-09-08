@@ -20,6 +20,10 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	//finds (assumed) initial needed components
+	void FindInputComponent();
+	void FindPhysicsHandler();
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -31,4 +35,7 @@ private:
 	FString ObjectHit;
 
 	UPhysicsHandleComponent* PhysicsHandler = nullptr;
+	UInputComponent* InputComponent = nullptr;
+	void GrabObject();
+	void ReleaseObject();
 };

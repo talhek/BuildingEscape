@@ -17,6 +17,26 @@ void UGrabber::BeginPlay()
 {
 
 	Super::BeginPlay();
+	FindInputComponent();
+	FindPhysicsHandler();
+
+
+
+}
+void UGrabber::FindInputComponent()
+{
+	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
+	if (InputComponent) {
+		UE_LOG(LogTemp, Error, TEXT("input component found "));
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("%s missing input component"), *GetOwner()->GetName());
+	}
+	InputComponent->BindAction("GrabObject", IE_Pressed, this, &UGrabber::GrabObject);
+	InputComponent->BindAction("GrabObject", IE_Released, this, &UGrabber::ReleaseObject);
+}
+void UGrabber::FindPhysicsHandler()
+{
 	///Look for physics handler
 	PhysicsHandler = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 	if (!PhysicsHandler) {
@@ -26,7 +46,21 @@ void UGrabber::BeginPlay()
 		//PhysicsHandler is found
 	}
 }
+void UGrabber::GrabObject() {
 
+	UE_LOG(LogTemp, Warning, TEXT("Object %s grabbed!"), *GetOwner()->GetName());
+
+	//Line trace and see if we can reach any actor with physics body collision channel set
+
+	//if success on hit than attach a physics handle
+
+	//TODO attach physics handle
+}
+void UGrabber::ReleaseObject() {
+	UE_LOG(LogTemp, Warning, TEXT("Object %s released!"), *GetOwner()->GetName());
+
+	//TODO release physics handle
+}
 
 // Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -34,21 +68,20 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	//if the physics handler is attached
+		// move the object that is being held
+
+
+
+
+
 	//get player view point
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(PlayerViewPointLocation, PlayerViewPointRotator);
 	//UE_LOG(LogTemp, Warning, TEXT("Player view point location is : %s and position: %s "), *PlayerViewPointLocation.ToString(), *PlayerViewPointRotator.ToString());
 
 	///draw a red trace in the world to visualize
 	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotator.Vector() * Reach;
-		DrawDebugLine(GetWorld(),
-			PlayerViewPointLocation,
-			LineTraceEnd,
-			FColor(255, 0, 0),
-			false,
-			0.f,
-			0.f,
-			10.f
-			);
 		//setup query params
 		FCollisionQueryParams TraceParematers(FName(TEXT("")), false, GetOwner());
 
