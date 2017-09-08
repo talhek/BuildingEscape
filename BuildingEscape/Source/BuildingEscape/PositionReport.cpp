@@ -21,7 +21,7 @@ void UPositionReport::BeginPlay()
 
 	FString object_name = GetOwner()->GetName();
 	FString object_cords = GetOwner()->GetActorLocation().ToString();
-	UE_LOG(LogTemp, Warning, TEXT("Object %s is at position %s"), *object_name, *object_cords);
+//  UE_LOG(LogTemp, Warning, TEXT("Object %s is at position %s"), *object_name, *object_cords);
 	
 }
 
