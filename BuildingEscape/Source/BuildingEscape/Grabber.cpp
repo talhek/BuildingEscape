@@ -50,18 +50,31 @@ void UGrabber::FindPhysicsHandler()
 }
 void UGrabber::GrabObject() {
 
-	UE_LOG(LogTemp, Warning, TEXT("Object %s grabbed!"), *GetOwner()->GetName());
+	UE_LOG(LogTemp, Warning, TEXT("Object %s tried to grab!"), *GetOwner()->GetName());
 
 	//Line trace and see if we can reach any actor with physics body collision channel set
 	GetFirstPhysicsBodyInReach();
-	//if success on hit than attach a physics handle
 
-	//TODO attach physics handle
+	auto  HitResult = GetFirstPhysicsBodyInReach();
+	auto ComponentToGrab = HitResult.GetComponent();
+	if (HitResult.GetActor()) {
+		//attach physics handle
+		PhysicsHandler->GrabComponentAtLocationWithRotation(
+			ComponentToGrab,
+			NAME_None,
+			HitResult.GetActor()->GetTargetLocation(),
+			PlayerViewPointRotator
+		);
+	}
 }
 void UGrabber::ReleaseObject() {
-	UE_LOG(LogTemp, Warning, TEXT("Object %s released!"), *GetOwner()->GetName());
+	UE_LOG(LogTemp, Warning, TEXT("Object %s tried release!"), *GetOwner()->GetName());
 
-	//TODO release physics handle
+	// release physics handle
+	if (PhysicsHandler->GrabbedComponent)
+	{
+		PhysicsHandler->ReleaseComponent();
+	}
 }
 
 // Called every frame
@@ -70,10 +83,18 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	//get player view point
+	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(PlayerViewPointLocation, PlayerViewPointRotator);
+	//UE_LOG(LogTemp, Warning, TEXT("Player view point location is : %s and position: %s "), *PlayerViewPointLocation.ToString(), *PlayerViewPointRotator.ToString());
+
+	///calc the end of view point
+	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotator.Vector() * Reach;
 
 	//if the physics handler is attached
 		// move the object that is being held
-
+	if (PhysicsHandler->GrabbedComponent) {
+		PhysicsHandler->SetTargetLocation(LineTraceEnd);
+	}
 
 
 }
@@ -84,7 +105,7 @@ const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(PlayerViewPointLocation, PlayerViewPointRotator);
 	//UE_LOG(LogTemp, Warning, TEXT("Player view point location is : %s and position: %s "), *PlayerViewPointLocation.ToString(), *PlayerViewPointRotator.ToString());
 
-	///draw a red trace in the world to visualize
+	///calc the end of view point
 	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotator.Vector() * Reach;
 	//setup query params
 	FCollisionQueryParams TraceParematers(FName(TEXT("")), false, GetOwner());
