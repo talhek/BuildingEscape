@@ -30,6 +30,7 @@ public:
 
 
 private:
+
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotator;
 	float Reach = 100.f;
