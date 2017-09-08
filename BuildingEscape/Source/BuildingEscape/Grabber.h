@@ -28,6 +28,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+
 private:
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotator;
@@ -38,4 +39,6 @@ private:
 	UInputComponent* InputComponent = nullptr;
 	void GrabObject();
 	void ReleaseObject();
+	const FHitResult GetFirstPhysicsBodyInReach();
+
 };
