@@ -51,6 +51,10 @@ void UGrabber::GrabObject() {
 
 	auto  HitResult = GetFirstPhysicsBodyInReach();
 	auto ComponentToGrab = HitResult.GetComponent();
+
+	if (!PhysicsHandler) {
+		return;
+	}
 	if (HitResult.GetActor()) {
 		//attach physics handle
 		PhysicsHandler->GrabComponentAtLocationWithRotation(
@@ -64,6 +68,9 @@ void UGrabber::GrabObject() {
 void UGrabber::ReleaseObject() {
 	UE_LOG(LogTemp, Warning, TEXT("Object %s tried release!"), *GetOwner()->GetName());
 
+	if (!PhysicsHandler) {
+		return;
+	}
 	// release physics handle
 	if (PhysicsHandler->GrabbedComponent)
 	{
@@ -77,6 +84,9 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	LocationUpdate();
 	//if the physics handler is attached move the grabbed component
+	if (!PhysicsHandler) {
+		return;
+	}
 	if (PhysicsHandler->GrabbedComponent) {
 		PhysicsHandler->SetTargetLocation(LineTraceEnd);
 	}
